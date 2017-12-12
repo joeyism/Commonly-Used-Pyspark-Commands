@@ -3,19 +3,19 @@
 The following is a list of commonly used [Pyspark](http://spark.apache.org/docs/latest/api/python/index.html) commands
 
 
-### CSV to DataFrame
+#### CSV to DataFrame
 ```python
 df = sqlContext.read.load("data/file.csv", format="com.databricks.spark.csv", header="true", inferSchema="true", delimiter=',')
 ```
 
 
-### Selecting one columns from dataframe
+#### Selecting one columns from dataframe
 ```python
 new_df = df.select("col1")
 ```
 
 
-### Selecting multiple columns from dataframe
+#### Selecting multiple columns from dataframe
 ```python
 new_df = df.select("col1", "col2")
 new_df = df.select(["col1", "col2"])
@@ -23,7 +23,7 @@ new_df = df.select(["col1", "col2"])
 ```
 
 
-### Creating an anonymous function, and using that to transform column of data
+#### Creating an anonymous function, and using that to transform column of data
 ```python
 from pyspark.sql.functions import udf
 df = df.where("new_col", udf(lambda x: x + 2)("col1"))
@@ -37,7 +37,7 @@ df = df.where("new_col", add_two_udf("col1")) # then df will have what it origin
 ```
 
 
-### Creating an anonymous function and making it return an integer
+#### Creating an anonymous function and making it return an integer
 ```python
 from pyspark.sql.types import IntegerType
 df = df.where("new_col", udf(lambda x: x + 2, IntegerType())("col1"))
@@ -46,7 +46,7 @@ df = df.where("new_col", udf(lambda x: x + 2)("col1").cast(IntegerType()))
 ```
 
 
-### Have a global variable, and reference that in anonymous function
+#### Have a global variable, and reference that in anonymous function
 ```python
 from pyspark.sql.types import IntegerType
 from pyspark.sql.functions import udf
@@ -59,7 +59,7 @@ df = df.where("city_id", city_to_num_udf("city_name"))
 ```
 
 
-### Get unique values from a column, and zip it with a unique number so it returns a dict
+#### Get unique values from a column, and zip it with a unique number so it returns a dict
 ```python
 # So that the result is {"Toronto": 1, "Montreal": 2, "Vancouver": 3, ...}
 city_to_num = dict(df.select("city_name").rdd.distinct().map(lambda x: x[0]).zipWithIndex().collect())
@@ -67,7 +67,7 @@ city_to_num = dict(df.select("city_name").rdd.distinct().map(lambda x: x[0]).zip
 ```
 
 
-### Number of distinct/unique values from a column
+#### Number of distinct/unique values from a column
 ```python
 
 #CPU times: user 0 ns, sys: 4 ms, total: 4 ms
