@@ -240,3 +240,23 @@ df.head(1) # defaults to 1 if no specified
 ```python
 df.collect()
 ```
+
+### Machine Learning
+
+#### Transforming for Training
+I'm just using GBTRegressor as a example
+```python
+# Transforming
+from pyspark.ml.linalg import DenseVector
+
+df_train = df.select("output", "input1", "input2", ...)
+df_train = df_train.rdd.map(lambda x: (x[0], DenseVector(x[1:])))
+df_train = spark.createDataFrame(df_train, ["label", "features"])
+
+# Traning
+from pyspark.ml.regression import GBTRegressor
+gbt = GBTRegressor(maxIter=10)
+gbt.fit(df_train)
+
+
+```
