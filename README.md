@@ -1,6 +1,8 @@
 # Commonly Used Pyspark Commands
 
-The following is a list of commonly used [Pyspark](http://spark.apache.org/docs/latest/api/python/index.html) commands
+The following is a list of commonly used [Pyspark](http://spark.apache.org/docs/latest/api/python/index.html) commands that I have found to be useful.
+
+DISCLAIMER: These are not the only ways to use these commands. There are obviously many other ways. These are just ways that I use often and have found to be useful.
 
 ## Table of Content
 * [`Read and Write`](#read-and-write)
@@ -10,6 +12,10 @@ The following is a list of commonly used [Pyspark](http://spark.apache.org/docs/
 * [`Count Distinct`](#count-distinct)
 * [`Joins`](#joins)
 * [`Groups and Aggregate`](#groups-and-aggregate)
+* [`Working with datetime`](#working-with-datetime)
+* [`Viewing Data`](#viewing-data)
+
+
 
 ### Read and Write
 #### Read CSV to DataFrame
@@ -167,3 +173,70 @@ df_new = df.groupBy("store_id").agg(
         )
 ```
 
+### Working with datetime
+
+#### Get day of the week
+```python
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+get_dotw = udf(lambda x: x.weekday(), IntegerType())
+df = df.withColumn("dotw", get_dotw("date"))
+```
+
+#### Get 1 if it is a weekend, 0 if it is not
+```python
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+get_weekend = udf(lambda x: 1 if x.weekday() == 4 or x.weekday() == 5 else 0, IntegerType())
+df = df.withColumn("dotw", get_weekend("date"))
+```
+
+#### Get day
+```python
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+get_day = udf(lambda x: x.day, IntegerType())
+df = df.withColumn("dotw", get_day("date"))
+```
+
+#### Get Month
+```python
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+get_month = udf(lambda x: x.month, IntegerType())
+df = df.withColumn("dotw", get_month("date"))
+```
+
+#### Convert String to Timestamp/datetime
+If the string is of the form `yyyy-MM-dd`, this creates a new column that with the same data but in `timestamp` format. When you `.take` the value, it'll actually say it's `datetime.datetime` which is useful for manipulation
+
+```python
+from pyspark.sql.functions import col
+
+df = df.select("*", col("time_string").cast("timestamp").alias("time_datetime")) 
+```
+
+### Viewing Data
+#### Taking a peek at 1 row of data in list form
+I use this alot, similar to when I use `df.head()` in pandas
+
+```python
+# CPU times: user 28 ms, sys: 4 ms, total: 32 ms                                  
+# Wall time: 4.18 s
+df.take(1)
+
+# CPU times: user 8 ms, sys: 28 ms, total: 36 ms                                  
+# Wall time: 4.19 s
+df.head(1) # defaults to 1 if no specified
+```
+
+#### Looking at the entire set in list form
+**WARNING**: This takes a while if your dataset is large. I don't usually use this
+
+```python
+df.collect()
+```
