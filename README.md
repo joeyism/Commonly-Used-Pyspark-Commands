@@ -129,6 +129,15 @@ df_new = df1.join(df2, df1["some_id"] == df2["other_id"], "inner")
 df_new = df1.join(df2, "id", "inner")
 ```
 
+#### Join on multiple conditions
+```python
+df_new = df1.join(
+            df2, 
+            (df2["col1"] == df1["col2"]) & (df2["col3"] == df1["col4"]), 
+            "inner"
+        )
+```
+
 ### Groups and Aggregate
 
 #### Group by an id, and sum up values based on the groupby value
