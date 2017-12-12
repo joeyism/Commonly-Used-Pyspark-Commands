@@ -5,7 +5,10 @@ The following is a list of commonly used [Pyspark](http://spark.apache.org/docs/
 
 #### CSV to DataFrame
 ```python
-df = sqlContext.read.load("data/file.csv", format="com.databricks.spark.csv", header="true", inferSchema="true", delimiter=',')
+df = sqlContext.read.load("data/file.csv",
+    format="com.databricks.spark.csv",
+    header="true", inferSchema="true",
+    delimiter=',')
 ```
 
 
@@ -72,11 +75,11 @@ city_to_num = dict(df.select("city_name").rdd.distinct().map(lambda x: x[0]).zip
 
 #CPU times: user 0 ns, sys: 4 ms, total: 4 ms
 #Wall time: 426 ms
-df.select("col1").rdd.distinct().count()
+df.select("col1").distinct().count()
 
 # CPU times: user 16 ms, sys: 0 ns, total: 16 ms
 # Wall time: 200 ms
-df.select("col1").distinct().count()
+df.select("col1").rdd.distinct().count()
 
 
 ```
