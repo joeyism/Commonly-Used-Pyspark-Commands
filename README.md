@@ -229,6 +229,20 @@ from pyspark.sql.functions import col
 df = df.select("*", col("time_string").cast("timestamp").alias("time_datetime")) 
 ```
 
+#### Datetime subtract constant datetime
+The following example shows the number of days since new year of that year. 
+
+```python
+from datetime import datetime 
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+days_since_newyear_udf = udf(lambda x: (x - datetime.strptime(str(x.year) + "-01-01", "%Y-%m-%d")).days, IntegerType())
+df = df.withColumn("days_since_newyear", days_since_newyear_udf("calendar_date"))
+
+
+```
+
 ### Viewing Data
 #### Taking a peek at 1 row of data in list form
 I use this alot, similar to when I use `df.head()` in pandas
