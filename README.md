@@ -57,6 +57,16 @@ no_of_files = 256 # setting to 1 might throw error due to memory problems
 df.coalesce(no_of_files).write.format("com.databricks.spark.csv").save("df_folder") 
 ```
 
+### Reading from JSON
+#### Reading from JSON into a DataFrame
+```python
+df = spark.read.json('json_file.json')
+```
+#### Reading many JSON files into a DataFrame
+```python
+df = spark.read.json('json_folder/*.json')
+```
+
 ### Select
 #### Selecting one columns from dataframe
 ```python
