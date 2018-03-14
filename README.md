@@ -44,7 +44,7 @@ df = sqlContext.read.load("data/file.csv",
 #### Write DataFrame to 1 CSV
 ```python
 df.toPandas().to_csv("df.csv", index=False)
-
+# If it says pandas not found, just pip install pandas
 ```
 
 #### Write to csv but in multiple files in a folder
