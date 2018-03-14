@@ -5,6 +5,7 @@ The following is a list of commonly used [Pyspark](http://spark.apache.org/docs/
 DISCLAIMER: These are not the only ways to use these commands. There are obviously many other ways. These are just ways that I use often and have found to be useful.
 
 ## Table of Content
+* [`Viewing`](#viewing)
 * [`Read and Write`](#read-and-write)
 * [`Select`](#select)
 * [`Apply Anonymous Function`](#apply-anonymous-function)
@@ -15,7 +16,21 @@ DISCLAIMER: These are not the only ways to use these commands. There are obvious
 * [`Working with datetime`](#working-with-datetime)
 * [`Viewing Data`](#viewing-data)
 
+### Viewing
+#### Viewing first few of DataFrame
+```python
+df.head()
+```
 
+#### Viewing first 10 of DataFrame
+```python
+df.head(10)
+```
+
+#### Viewing total number of rows of DataFrame
+```python
+df.count()
+```
 
 ### Read and Write
 #### Read CSV to DataFrame
