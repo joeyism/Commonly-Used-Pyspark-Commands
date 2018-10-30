@@ -41,7 +41,9 @@ df = sqlContext.read.load("data/file.csv",
     delimiter=',')
 ```
 #### Manually add columns to DataFrame
+```python
 df = df.toDF(*["col1", "col2"])
+```
 
 #### Write DataFrame to 1 CSV
 ```python
