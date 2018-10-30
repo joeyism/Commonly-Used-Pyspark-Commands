@@ -268,8 +268,13 @@ from pyspark.sql.types import IntegerType
 
 days_since_newyear_udf = udf(lambda x: (x - datetime.strptime(str(x.year) + "-01-01", "%Y-%m-%d")).days, IntegerType())
 df = df.withColumn("days_since_newyear", days_since_newyear_udf("calendar_date"))
+```
 
+#### Find time difference
+```python
+from pyspark.sql.functions import unix_timestamp
 
+df.withColumn("avg_timestamp_in_s", unix_timestamp("max_timestamp") - unix_timestamp("min_timestamp"))
 ```
 
 ### Viewing Data
