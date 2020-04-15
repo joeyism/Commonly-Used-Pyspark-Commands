@@ -310,10 +310,8 @@ df_train = df.select("output", "input1", "input2", ...)
 df_train = df_train.rdd.map(lambda x: (x[0], DenseVector(x[1:])))
 df_train = spark.createDataFrame(df_train, ["label", "features"])
 
-# Traning
+# Training
 from pyspark.ml.regression import GBTRegressor
 gbt = GBTRegressor(maxIter=10)
 gbt.fit(df_train)
-
-
 ```
